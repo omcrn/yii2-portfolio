@@ -1,0 +1,21 @@
+{
+    "name": "omcrn/yii2-portfolio",
+    "description": "Yii2 portfolio module",
+    "type": "yii2-extension",
+    "keywords": ["yii2","extension"," portfolio"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Saiat Kalbiev",
+            "email": "kalbievich11@gmail.com"
+        }
+    ],
+    "require": {
+        "yiisoft/yii2": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "omcrn\\portfolio\\": ""
+        }
+    }
+}
