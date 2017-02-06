@@ -6,6 +6,7 @@ use yii\bootstrap\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model omcrn\portfolio\models\PortfolioItem */
 /* @var $form yii\bootstrap\ActiveForm */
+/* @var $categories omcrn\portfolio\models\PortfolioCategory[] */
 ?>
 
 <div class="portfolio-item-form">
@@ -16,7 +17,11 @@ use yii\bootstrap\ActiveForm;
 
     <?php echo $form->field($model, 'slug')->textInput(['maxlength' => true]) ?>
 
-    <?php echo $form->field($categories, 'category_id')->dropDownList($categories, ['prompt' => '']) ?>
+    <?php echo $form->field($model, 'category_ids', [
+        'inputOptions' => [
+            'multiple' => 'multiple'
+        ]
+    ])->dropDownList($categories) ?>
 
     <?php echo $form->field($model, 'thumbnail')->textInput(['maxlength' => true]) ?>
 

@@ -63,7 +63,9 @@ class PortfolioItemController extends Controller
     {
         $model = new PortfolioItem();
         $categories = PortfolioCategory::getCategories();
+
         var_dump($categories);
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {

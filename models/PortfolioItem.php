@@ -4,6 +4,7 @@ namespace omcrn\portfolio\models;
 
 use Yii;
 use yii\behaviors\SluggableBehavior;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "{{%om_portfolio_item}}".
@@ -23,6 +24,8 @@ use yii\behaviors\SluggableBehavior;
  */
 class PortfolioItem extends \yii\db\ActiveRecord
 {
+    public $category_ids = [];
+    public $PortfolioCategoryItem = [];
     /**
      * @inheritdoc
      */
@@ -30,7 +33,6 @@ class PortfolioItem extends \yii\db\ActiveRecord
     {
         return '{{%om_portfolio_item}}';
     }
-
     /**
      * @inheritdoc
      */
@@ -43,6 +45,7 @@ class PortfolioItem extends \yii\db\ActiveRecord
             [['start_date', 'end_date'], 'safe'],
             [['sort_order', 'created_at', 'updated_at'], 'integer'],
             [['thumbnail'], 'string', 'max' => 255],
+            ['category_ids', 'each', 'rule' => ['integer']],
         ];
     }
 
@@ -69,6 +72,7 @@ class PortfolioItem extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('portfolio', 'ID'),
             'slug' => Yii::t('portfolio', 'Slug'),
+            'category_ids' => Yii::t('portfolio', 'Portfolio Categories'),
             'thumbnail' => Yii::t('portfolio', 'Thumbnail'),
             'start_date' => Yii::t('portfolio', 'Start Date'),
             'end_date' => Yii::t('portfolio', 'End Date'),
@@ -109,5 +113,52 @@ class PortfolioItem extends \yii\db\ActiveRecord
     public static function find()
     {
         return new \omcrn\portfolio\models\query\PortfolioItemQuery(get_called_class());
+    }
+    public function save($runValidation = true, $attributeNames = null)
+    {
+        $transaction = Yii::$app->db->beginTransaction();
+        if (parent::save()){
+
+            if (!is_array($this->category_ids)){
+                $this->category_ids = [];
+            }
+            $existingCategoryIds = ArrayHelper::getColumn($this->PortfolioCategoryItem, 'category_id');
+            $toDeleteCategoryIds = array_diff($existingCategoryIds, $this->category_ids);
+            $toAddCategoryIds = array_diff($this->category_ids, $existingCategoryIds);
+            if ($this->removeCategories($toDeleteCategoryIds) && $this->addCategories($toAddCategoryIds)){
+                $transaction->commit();
+                return true;
+            }
+        }
+        $transaction->rollBack();
+        return false;
+    }
+
+    protected function removeCategories($categoryIds)
+    {
+        if (empty($categoryIds)){
+            return true;
+        }
+        PortfolioCategoryItem::deleteAll(['item_id' => $this->id, 'category_id' => $categoryIds]);
+        return true;
+    }
+
+    protected function addCategories($categoryIds)
+    {
+        if (empty($categoryIds)){
+            return true;
+        }
+        $data = [];
+        foreach ($categoryIds as $category_id){
+            $data[] = [
+                'item_id' => $this->id,
+                'category_id' => $category_id
+            ];
+        }
+
+        Yii::$app->db->createCommand()->batchInsert(PortfolioCategoryItem::tableName(),
+            ['item_id', 'category_id'], $data)->execute();
+
+        return true;
     }
 }
