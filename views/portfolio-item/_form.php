@@ -16,17 +16,29 @@ use yii\bootstrap\ActiveForm;
 
     <?php echo $form->field($model, 'slug')->textInput(['maxlength' => true]) ?>
 
+    <?php echo $form->field($categories, 'category_id')->dropDownList($categories, ['prompt' => '']) ?>
+
     <?php echo $form->field($model, 'thumbnail')->textInput(['maxlength' => true]) ?>
 
-    <?php echo $form->field($model, 'start_date')->textInput() ?>
+    <?php echo $form->field($model, 'start_date')->widget(
+        'trntv\yii\datetime\DateTimeWidget',
+        [
+            'phpDatetimeFormat' => 'yyyy-MM-dd\'T\'HH:mm:ssZZZZZ'
+        ]
+    ) ?>
 
-    <?php echo $form->field($model, 'end_date')->textInput() ?>
+    <?php echo $form->field($model, 'end_date')->widget(
+        'trntv\yii\datetime\DateTimeWidget',
+        [
+            'phpDatetimeFormat' => 'yyyy-MM-dd\'T\'HH:mm:ssZZZZZ'
+        ]
+    ) ?>
 
-    <?php echo $form->field($model, 'sort_order')->textInput() ?>
+    <?php // echo $form->field($model, 'sort_order')->textInput() ?>
 
-    <?php echo $form->field($model, 'created_at')->textInput() ?>
+    <?php // echo $form->field($model, 'created_at')->textInput() ?>
 
-    <?php echo $form->field($model, 'updated_at')->textInput() ?>
+    <?php // echo $form->field($model, 'updated_at')->textInput() ?>
 
     <div class="form-group">
         <?php echo Html::submitButton($model->isNewRecord ? Yii::t('portfolio', 'Create') : Yii::t('portfolio', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

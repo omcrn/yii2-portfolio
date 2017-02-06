@@ -20,9 +20,9 @@ use yii\bootstrap\ActiveForm;
 
     <?php echo $form->field($model, 'status')->checkbox() ?>
 
-    <?php echo $form->field($model, 'created_at')->textInput() ?>
+    <?php // echo $form->field($model, 'created_at')->textInput() ?>
 
-    <?php echo $form->field($model, 'updated_at')->textInput() ?>
+    <?php // echo $form->field($model, 'updated_at')->textInput() ?>
 
     <div class="form-group">
         <?php echo Html::submitButton($model->isNewRecord ? Yii::t('portfolio', 'Create') : Yii::t('portfolio', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

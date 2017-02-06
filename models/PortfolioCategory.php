@@ -69,6 +69,17 @@ class PortfolioCategory extends \yii\db\ActiveRecord
         return $this->hasMany(PortfolioCategoryItem::className(), ['category_id' => 'id']);
     }
 
+
+    public static function getCategories()
+    {
+        $return = [];
+        $categories = self::find() ->all();
+        foreach ($categories as $cat){
+            $return[$cat['id']] = $cat['name'];
+        }
+        return $return;
+    }
+
     /**
      * @inheritdoc
      * @return \omcrn\portfolio\models\query\PortfolioCategoryQuery the active query used by this AR class.

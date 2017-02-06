@@ -2,6 +2,7 @@
 
 namespace omcrn\portfolio\controllers;
 
+use omcrn\portfolio\models\PortfolioCategory;
 use Yii;
 use omcrn\portfolio\models\PortfolioItem;
 use omcrn\portfolio\models\search\PortfolioItem as PortfolioItemSearch;
@@ -61,12 +62,14 @@ class PortfolioItemController extends Controller
     public function actionCreate()
     {
         $model = new PortfolioItem();
-
+        $categories = PortfolioCategory::getCategories();
+        var_dump($categories);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
+                'categories' => $categories
             ]);
         }
     }
