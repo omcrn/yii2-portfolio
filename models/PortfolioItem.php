@@ -169,25 +169,21 @@ class PortfolioItem extends ActiveRecord
                 $allSaved = false;
             }
         }
-        if ($allSaved) {
-
-        } else {
+        if (!$allSaved) {
             $transaction->rollBack();
             return $allSaved;
         }
-        if (parent::save()) {
-
-            if (!is_array($this->category_ids)) {
-                $this->category_ids = [];
-            }
-            $existingCategoryIds = ArrayHelper::getColumn($this->portfolioCategoryItems, 'category_id');
-            $toDeleteCategoryIds = array_diff($existingCategoryIds, $this->category_ids);
-            $toAddCategoryIds = array_diff($this->category_ids, $existingCategoryIds);
-            if ($this->removeCategories($toDeleteCategoryIds) && $this->addCategories($toAddCategoryIds)) {
-                $transaction->commit();
-                return true;
-            }
+        if (!is_array($this->category_ids)) {
+            $this->category_ids = [];
         }
+        $existingCategoryIds = ArrayHelper::getColumn($this->portfolioCategoryItems, 'category_id');
+        $toDeleteCategoryIds = array_diff($existingCategoryIds, $this->category_ids);
+        $toAddCategoryIds = array_diff($this->category_ids, $existingCategoryIds);
+        if ($this->removeCategories($toDeleteCategoryIds) && $this->addCategories($toAddCategoryIds)) {
+            $transaction->commit();
+            return true;
+        }
+
         $transaction->rollBack();
         return false;
     }
