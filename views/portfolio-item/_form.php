@@ -1,12 +1,15 @@
 <?php
 
 use yii\helpers\Html;
+use yii\bootstrap\Tabs;
 use yii\bootstrap\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $model omcrn\portfolio\models\PortfolioItem */
 /* @var $form yii\bootstrap\ActiveForm */
 /* @var $categories omcrn\portfolio\models\PortfolioCategory[] */
+/* @var $locales array */
+/* @var $translationModel \omcrn\portfolio\models\PortfolioItem */
 ?>
 
 <div class="portfolio-item-form">
@@ -22,6 +25,48 @@ use yii\bootstrap\ActiveForm;
             'multiple' => 'multiple'
         ]
     ])->dropDownList($categories) ?>
+
+    <?php
+    if (isset($locales)) {
+        $items = [];
+        $ind = 0;
+        foreach ($locales as $key => $locale) {
+            $title = $locale;
+            $translationModel = $model->findTranslationByLocale($key);
+
+            $content = $this->render('_tab_content', [
+                'form' => $form,
+                'model' => $translationModel,
+                'language' => $key,
+            ]);
+
+            $items[] = [
+                'label' => $title,
+                'content' => $content,
+                'headerOptions' => [
+                    'title' => $translationModel->hasErrors() ? Yii::t('i18ncontent', 'You have validation errors') : "",
+                    'class' => $translationModel->hasErrors() ? 'has-error' : '',
+                    'data-toggle' => 'tooltip'
+                ],
+                'options' => [
+                    'class' => 'fade' . ($ind++ === 0 ? ' in' : '')
+                ]
+
+            ];
+        }
+        echo '<div class="tab-wrapper">';
+        echo Tabs::widget([
+            'items' => $items
+        ]);
+        echo '</div>';
+    } else {
+        echo $this->render('_tab_content', [
+            'form' => $form,
+            'model' => $model
+        ]);
+    }
+
+    ?>
 
     <?php echo $form->field($model, 'thumbnail')->textInput(['maxlength' => true]) ?>
 
