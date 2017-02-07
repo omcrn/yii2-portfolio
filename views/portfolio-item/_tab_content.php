@@ -5,7 +5,7 @@ use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $language string */
-/* @var $model \omcrn\portfolio\models\PortfolioItemTranslation*/
+/* @var $model \omcrn\portfolio\models\PortfolioItemTranslation */
 /* @var $form yii\bootstrap\ActiveForm */
 
 $className = \yii\helpers\StringHelper::basename(\omcrn\portfolio\models\PortfolioItemTranslation::className());

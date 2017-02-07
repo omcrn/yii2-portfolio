@@ -2,7 +2,7 @@
 
 namespace omcrn\portfolio\controllers;
 
-use yii\web\Controller;
+use omcrn\web\Controller;
 
 /**
  * Default controller for the `portfolio` module

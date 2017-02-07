@@ -5,7 +5,7 @@ namespace omcrn\portfolio\controllers;
 use Yii;
 use omcrn\portfolio\models\PortfolioCategory;
 use omcrn\portfolio\models\search\PortfolioCategorySearch;
-use yii\web\Controller;
+use omcrn\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 

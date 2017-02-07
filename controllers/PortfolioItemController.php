@@ -7,7 +7,7 @@ use omcrn\portfolio\models\PortfolioCategory;
 use Yii;
 use omcrn\portfolio\models\PortfolioItem;
 use omcrn\portfolio\models\search\PortfolioItem as PortfolioItemSearch;
-use yii\web\Controller;
+use omcrn\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -68,7 +68,7 @@ class PortfolioItemController extends Controller
 
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view','id' => $model->id]);
+            return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
