@@ -2,6 +2,7 @@
 
 namespace omcrn\portfolio\models;
 
+use omcrn\portfolio\helpers\Html;
 use Yii;
 
 /**
@@ -80,5 +81,15 @@ class PortfolioItemTranslation extends \yii\db\ActiveRecord
     public static function find()
     {
         return new \omcrn\portfolio\models\query\PortfolioItemTranslationQuery(get_called_class());
+    }
+
+    public function getBody()
+    {
+        return Html::decodeMediaItemUrls($this->description);
+    }
+
+    public function getShortDescription()
+    {
+        return Html::decodeMediaItemUrls($this->short_description);
     }
 }
