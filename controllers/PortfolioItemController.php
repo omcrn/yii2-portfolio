@@ -7,7 +7,7 @@ use omcrn\portfolio\models\PortfolioCategory;
 use Yii;
 use omcrn\portfolio\models\PortfolioItem;
 use omcrn\portfolio\models\search\PortfolioItem as PortfolioItemSearch;
-use omcrn\web\Controller;
+use omcrn\portfolio\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 

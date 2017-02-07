@@ -1,11 +1,12 @@
 <?php
-
 /**
  * Created by PhpStorm.
  * User: berdia
  * Date: 2/7/17
  * Time: 4:13 PM
  */
+
+namespace omcrn\portfolio\web;
 
 use omcrn\portfolio\AssetBundle;
 

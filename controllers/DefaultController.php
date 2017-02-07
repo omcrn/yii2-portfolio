@@ -2,7 +2,7 @@
 
 namespace omcrn\portfolio\controllers;
 
-use omcrn\web\Controller;
+use omcrn\portfolio\web\Controller;
 
 /**
  * Default controller for the `portfolio` module
