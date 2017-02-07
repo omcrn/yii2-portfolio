@@ -28,8 +28,14 @@ use yii\helpers\ArrayHelper;
 class PortfolioItem extends ActiveRecord
 {
 
+    public $title = null;
+
+    /**
+     * @var PortfolioItemTranslation[]
+     */
+    public $newTranslations = [];
+
     public $category_ids = [];
-    public $PortfolioCategoryItem = [];
 
     /**
      * @inheritdoc
@@ -149,14 +155,6 @@ class PortfolioItem extends ActiveRecord
         return true;
     }
 
-    const STATUS_PUBLISHED = 1;
-    const STATUS_DRAFT = 0;
-
-    public $title = null;
-
-    public $newTranslations = [];
-
-
     public function save($runValidation = true, $attributeNames = null)
     {
         $transaction = Yii::$app->db->beginTransaction();
@@ -166,7 +164,7 @@ class PortfolioItem extends ActiveRecord
 
         $allSaved = true;
         foreach ($this->newTranslations as $translation) {
-            $translation->{static::$translateModelForeignKey} = $this->id;
+            $translation->item_id = $this->id;
             if (!$translation->save()) {
                 $allSaved = false;
             }
@@ -174,6 +172,7 @@ class PortfolioItem extends ActiveRecord
         if ($allSaved) {
 
         } else {
+            $transaction->rollBack();
             return $allSaved;
         }
         if (parent::save()) {
@@ -181,7 +180,7 @@ class PortfolioItem extends ActiveRecord
             if (!is_array($this->category_ids)) {
                 $this->category_ids = [];
             }
-            $existingCategoryIds = ArrayHelper::getColumn($this->PortfolioCategoryItem, 'category_id');
+            $existingCategoryIds = ArrayHelper::getColumn($this->portfolioCategoryItems, 'category_id');
             $toDeleteCategoryIds = array_diff($existingCategoryIds, $this->category_ids);
             $toAddCategoryIds = array_diff($this->category_ids, $existingCategoryIds);
             if ($this->removeCategories($toDeleteCategoryIds) && $this->addCategories($toAddCategoryIds)) {
@@ -207,18 +206,14 @@ class PortfolioItem extends ActiveRecord
         if (!empty($translations)) {
             foreach ($translations as $loc => $modelData) {
                 $modelData['locale'] = $loc;
-                if (isset($modelData['body'])) {
-                    $modelData['body'] = Html::encodeMediaItemUrls($modelData['body']);
+                if (isset($modelData['description'])) {
+                    $modelData['description'] = Html::encodeMediaItemUrls($modelData['description']);
                 }
-                if (isset($modelData['short_description']) &&
-                    ($this->hasAttribute('short_description') || $this->hasProperty('short_description'))
-                ) {
-                    $this->short_description = Html::encodeMediaItemUrls($modelData['short_description']);
+                if (isset($modelData['short_description'])) {
+                    $model['short_description'] = Html::encodeMediaItemUrls($modelData['short_description']);
                 }
 
-                if (Yii::$app->language === $loc && isset($modelData['title']) &&
-                    ($this->hasAttribute('title') || $this->hasProperty('title'))
-                ) {
+                if (Yii::$app->language === $loc && isset($modelData['title'])) {
                     $this->title = $modelData['title'];
                 }
                 $translation = $this->findTranslationByLocale($loc);

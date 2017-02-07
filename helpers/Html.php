@@ -32,7 +32,7 @@ class Html extends \yii\bootstrap\Html
         if (!$text){
             return $text;
         }
-        $module = Yii::$app->getModule('portfolio');
+        $module = Yii::$app->getModule('om-portfolio');
         return str_replace($module->mediaUrlPrefix, $module->mediaUrlReplacement, $text);
     }
 
@@ -51,7 +51,7 @@ class Html extends \yii\bootstrap\Html
         /**
          * @var $module Module
          */
-        $module = Yii::$app->getModule('i18ncontent');
+        $module = Yii::$app->getModule('om-portfolio');
         return str_replace($module->mediaUrlReplacement, $module->mediaUrlPrefix, $text);
     }
 
