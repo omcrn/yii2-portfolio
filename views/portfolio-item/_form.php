@@ -68,11 +68,24 @@ use yii\bootstrap\ActiveForm;
 
     ?>
 
-    <div class="fileinput fileinput-new" data-provides="fileinput">
-        <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px;"></div>
-        <div>
-            <span class="btn btn-default btn-file"><span class="fileinput-new">Select image</span><span class="fileinput-exists">Change</span><input type="file" name="..."></span>
-            <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+    <div class="om-file-crop-input attachment-list">
+    </div>
+    <?php $this->registerJs('$(\'.om-file-crop-input\').omFileInput()') ?>
+
+    <div id="om-file-input-cropper-modal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">×</button>
+                    <h3>Crop uploaded file</h3>
+                </div>
+                <div class="modal-body">
+                    <img src="" alt="">
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn" data-dismiss="modal">Close</a>
+                </div>
+            </div>
         </div>
     </div>
 
