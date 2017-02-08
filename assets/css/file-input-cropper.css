@@ -14,3 +14,9 @@
     top: 0;
     opacity: 0;
 }
+
+.attachment-image-preview {
+    width: 100%;
+    z-index: 2;
+}
+

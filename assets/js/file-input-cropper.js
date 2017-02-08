@@ -17,8 +17,10 @@ $(function () {
 
             this.$input = $('<input type="file">');
             this.$addNewButton = $('<div class="attachment-add-button"><span class="glyphicon glyphicon-plus"></span></div>');
+            this.$removeButton = $('<div class="attachment-item-options"><a class="btn btn-danger">Remove</a></div>');
             this.$addNewButton.append(this.$input);
             this.$el.append(this.$addNewButton);
+            this.$el.append(this.$removeButton);
 
             this.listenOnChange();
         },
@@ -34,6 +36,7 @@ $(function () {
 
         readFile: function (file) {
             var me = this;
+            var $saveButton = $('.modal-footer > a')[0];
             var reader = new FileReader();
             reader.onload = function (e) {
                 $('#om-file-input-cropper-modal').modal('show');
@@ -42,9 +45,9 @@ $(function () {
                 $img[0].onload = function () {
 
                     var cropper = new Cropper($img[0], {
-                        aspectRatio: false,
+                        aspectRatio: 16 / 9,
                         guides: false,
-                        autoCropArea: 0.5,
+                        autoCropArea: 1,
                         //viewMode: '1',
                         crop: function (data) {
                             console.log(data.x);
@@ -56,8 +59,19 @@ $(function () {
                             console.log(data.scaleY);
                         }
                     });
-                };
 
+                    $saveButton.onclick = function () {
+                        var $attachmentItem = $('.attachment-add-button');
+                        var $imagePreview = $('<img>');
+
+                        $attachmentItem.empty();
+                        $imagePreview.addClass('attachment-image-preview');
+                        $imagePreview.attr('src', cropper.getCroppedCanvas().toDataURL());
+                        $imagePreview.attr('style', "width : 120px;");
+                        $attachmentItem.attr('style', "padding : 20px;");
+                        $attachmentItem.append($imagePreview);
+                    };
+                };
             };
             reader.readAsDataURL(file);
         },

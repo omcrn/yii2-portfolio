@@ -80,10 +80,10 @@ use yii\bootstrap\ActiveForm;
                     <h3>Crop uploaded file</h3>
                 </div>
                 <div class="modal-body">
-                    <img src="" alt="">
+                    <img class="modal-image" src="" alt="">
                 </div>
                 <div class="modal-footer">
-                    <a href="#" class="btn" data-dismiss="modal">Close</a>
+                    <a href="#" class="btn btn-primary" data-dismiss="modal">Save</a>
                 </div>
             </div>
         </div>
