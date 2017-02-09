@@ -83,7 +83,7 @@ use yii\bootstrap\ActiveForm;
                     <img class="modal-image" src="" alt="">
                 </div>
                 <div class="modal-footer">
-                    <a href="#" class="btn btn-primary" data-dismiss="modal">Save</a>
+                    <a class="btn btn-primary save" data-dismiss="modal">Save</a>
                 </div>
             </div>
         </div>
