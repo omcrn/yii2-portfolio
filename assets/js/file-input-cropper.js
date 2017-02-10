@@ -5,8 +5,8 @@ $(function () {
 
     var FileInput = function ($el) {
         this.$el = $el;
-        this.$modalCloseButton = $('#om-file-input-cropper-modal .modal-header > .close')[0];
         this.$modalSaveButton = $('#om-file-input-cropper-modal .modal-footer > .save')[0];
+
         console.log("This is constructor");
 
         this.init();
@@ -14,15 +14,16 @@ $(function () {
 
     FileInput.prototype = {
         init: function () {
+            var me = this;
             console.log("Init. Current element: ", this.$el);
 
-
             this.$input = $('<input type="file">');
-            this.$addNewButton = $('<div class="attachment-add-button"><span class="glyphicon glyphicon-plus"></span></div>');
-            this.$removeButton = $('<div class="attachment-item-options"><a class="btn btn-danger attachment-item-remove">Remove</a></div>');
+            this.$addNewButton = $('<div class="attachment-add-button">' +
+                '<span class="glyphicon glyphicon-plus"></span>' +
+                '<a class="btn attachment-item-remove">X</a></div>');
+            this.$attachmentOptions = $('');
             this.$addNewButton.append(this.$input);
             this.$el.append(this.$addNewButton);
-            this.$el.append(this.$removeButton);
 
             this.listenOnChange();
         },
@@ -45,7 +46,8 @@ $(function () {
             var imageFile = file;
             var reader = new FileReader();
             reader.onload = function (e) {
-                $('#om-file-input-cropper-modal').modal('show');
+                var cropperModal = $('#om-file-input-cropper-modal');
+                cropperModal.modal('show');
                 var $img = $('#om-file-input-cropper-modal .modal-body > .modal-image');
                 $img[0].src = e.target.result;
                 $img[0].onload = function () {
@@ -74,17 +76,38 @@ $(function () {
 
                         $attachmentItem.empty();
 
-                        $attachmentItem.attr('style', 'max-width: 200px; padding: 10px;');
+                        $attachmentItem.attr('style', 'max-width: 192px; padding: 2px;');
                         $imagePreview.attr('src', imageFile);
                         $attachmentItem.append($imagePreview);
+
+                        cropper.destroy();
+
+                        var removeBtn = $('<span class="glyphicon glyphicon-remove attachment-item-remove"></span>');
+                        me.$addNewButton.append(removeBtn);
+
+                        me.$addNewButton.on('mouseover', function () {
+                            removeBtn.show();
+                        });
+                        me.$addNewButton.mouseleave(function () {
+                            removeBtn.hide();
+                        });
+
+                        removeBtn.on('click', function () {
+                            me.clearSelected();
+                            me.init();
+                        });
                     };
 
-                    me.$modalCloseButton.onclick = function () {
+                    cropperModal.on('hidden.bs.modal', function () {
                         cropper.destroy();
-                    };
+                    });
                 };
             };
             reader.readAsDataURL(file);
+        },
+
+        clearSelected: function () {
+            this.$addNewButton.remove();
         }
     };
 

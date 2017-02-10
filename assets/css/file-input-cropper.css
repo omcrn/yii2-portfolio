@@ -1,7 +1,7 @@
 .attachment-add-button {
     position: relative;
     display: inline-block;
-    padding: 50px;
+    padding: 36px 64px 36px 64px;
     border: 1px dashed rgba(0, 0, 0, 0.6);
     overflow: hidden;
 }
@@ -17,5 +17,19 @@
 
 .attachment-image-preview {
     width: 100%;
+    position: relative;
 }
 
+.attachment-item-remove {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size: 14pt;
+    color: black;
+    transform: translate(-50%, -50%);
+}
+
+.attachment-item-remove:hover {
+    color: darkred;
+}
