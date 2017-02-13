@@ -10,6 +10,8 @@ use yii\bootstrap\ActiveForm;
 /* @var $categories omcrn\portfolio\models\PortfolioCategory[] */
 /* @var $locales array */
 /* @var $translationModel \omcrn\portfolio\models\PortfolioItem */
+
+$this->registerJs('$(\'.om-file-crop-input\').omFileInput()');
 ?>
 
 <div class="portfolio-item-form">
@@ -68,9 +70,8 @@ use yii\bootstrap\ActiveForm;
 
     ?>
 
-    <div class="om-file-crop-input attachment-list">
-    </div>
-    <?php $this->registerJs('$(\'.om-file-crop-input\').omFileInput()') ?>
+    <input type="file" class="om-file-crop-input">
+
 
     <div id="om-file-input-cropper-modal" class="modal fade" tabindex="-1" role="dialog">
         <div class="modal-dialog">

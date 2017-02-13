@@ -4,7 +4,7 @@
 $(function () {
 
     var FileInput = function ($el) {
-        this.$el = $el;
+        this.$input = $el;
         this.$modalSaveButton = $('#om-file-input-cropper-modal .modal-footer > .save')[0];
 
         console.log("This is constructor");
@@ -14,16 +14,12 @@ $(function () {
 
     FileInput.prototype = {
         init: function () {
-            var me = this;
-            console.log("Init. Current element: ", this.$el);
-
-            this.$input = $('<input type="file">');
-            this.$addNewButton = $('<div class="attachment-add-button">' +
-                '<span class="glyphicon glyphicon-plus"></span>' +
-                '<a class="btn attachment-item-remove">X</a></div>');
+            this.$container = $('<div class="attachment-list"></div>');
+            this.$container.insertBefore(this.$input);
+            this.$addNewButton = $('<div class="attachment-add-button"><span class="glyphicon glyphicon-plus"></span></div>');
             this.$attachmentOptions = $('');
             this.$addNewButton.append(this.$input);
-            this.$el.append(this.$addNewButton);
+            this.$container.append(this.$addNewButton);
 
             this.listenOnChange();
         },
@@ -69,16 +65,15 @@ $(function () {
                     });
 
                     me.$modalSaveButton.onclick = function () {
-                        var $attachmentItem = $('.attachment-add-button');
                         var $imagePreview = $('<img class="attachment-image-preview">');
 
                         imageFile = cropper.getCroppedCanvas().toDataURL();
 
-                        $attachmentItem.empty();
+                        me.$input.hide();
 
-                        $attachmentItem.attr('style', 'max-width: 192px; padding: 2px;');
+                        me.$addNewButton.attr('style', 'max-width: 192px; padding: 2px;');
                         $imagePreview.attr('src', imageFile);
-                        $attachmentItem.append($imagePreview);
+                        me.$addNewButton.append($imagePreview);
 
                         cropper.destroy();
 
