@@ -81,7 +81,9 @@ $this->registerJs('$(\'.om-file-crop-input\').omFileInput()');
                     <h3>Crop uploaded file</h3>
                 </div>
                 <div class="modal-body">
-                    <img class="modal-image" src="" alt="">
+                    <div>
+                        <img class="modal-image img-responsive" src="" alt="">
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <a class="btn btn-primary save" data-dismiss="modal">Save</a>
