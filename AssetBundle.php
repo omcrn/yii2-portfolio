@@ -14,15 +14,12 @@ class AssetBundle extends \yii\web\AssetBundle
     public $baseUrl = '@web';
 
     public $css = [
-        'css/jasny-bootstrap.css',
         'css/cropper.css',
         'css/file-input-cropper.css'
     ];
 
     public $js = [
-        'js/jasny-bootstrap.js',
         'js/cropper.js',
-        'js/module.js',
         'js/file-input-cropper.js'
     ];
 

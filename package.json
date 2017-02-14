@@ -1,0 +1,29 @@
+{
+  "name": "yii2-portfolio",
+  "version": "1.0.0",
+  "description": "yii2-portfolio module\r ================",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/omcrn/yii2-portfolio.git"
+  },
+  "keywords": [
+    "i18n"
+  ],
+  "author": [
+    {
+      "name": "Zura Sekhniashvili",
+      "email": "zurasekhniashvili@gmail.com"
+    }
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/omcrn/yii2-portfolio/issues"
+  },
+  "homepage": "https://github.com/omcrn/yii2-portfolio#readme",
+  "devDependencies": {
+    "gulp-less": "^3.3.0"
+  }
+}
