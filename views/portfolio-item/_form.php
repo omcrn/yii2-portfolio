@@ -56,7 +56,7 @@ $this->registerJs('$(\'.om-file-crop-input\').omFileInput()');
 
             ];
         }
-        echo '<div class="tab-wrapper">';
+        echo '<div class="form-group tab-wrapper">';
         echo Tabs::widget([
             'items' => $items
         ]);
@@ -69,12 +69,13 @@ $this->registerJs('$(\'.om-file-crop-input\').omFileInput()');
     }
 
     ?>
+    <hr>
 
-    <input type="file" class="om-file-crop-input">
+    <input type="file" class="om-file-crop-input" multiple>
 
 
     <div id="om-file-input-cropper-modal" class="modal fade" tabindex="-1" role="dialog">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">×</button>

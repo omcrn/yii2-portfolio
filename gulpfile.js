@@ -8,8 +8,9 @@
 
 
 var gulp = require('gulp');
-
 var less = require('gulp-less');
+var babel = require('gulp-babel');
+var concat = require('gulp-concat');
 
 /**
  *  Default task clean temporaries directories and launch the
@@ -21,7 +22,20 @@ gulp.task('less', function () {
     .pipe(gulp.dest('assets/css/'))
 });
 
-gulp.task('default', function () {
-  gulp.start('less');
+gulp.task('default', ['js', 'less'], function () {
   gulp.watch('assets/less/**/*.less', ['less']);
+  gulp.watch('assets/**/*.js', ['js']);
+});
+
+gulp.task('js', function () {
+  return gulp.src([
+    'assets/js/**/*.js',
+    '!assets/js/portfolio.js',
+    '!assets/js/cropper.js'
+  ])
+    .pipe(concat('js/portfolio.js'))
+    .pipe(babel({
+      presets: ['es2015']
+    }))
+    .pipe(gulp.dest('assets'));
 });

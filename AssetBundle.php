@@ -15,12 +15,12 @@ class AssetBundle extends \yii\web\AssetBundle
 
     public $css = [
         'css/cropper.css',
-        'css/file-input-cropper.css'
+        'css/portfolio.css'
     ];
 
     public $js = [
         'js/cropper.js',
-        'js/file-input-cropper.js'
+        'js/portfolio.js'
     ];
 
     public $depends = [
