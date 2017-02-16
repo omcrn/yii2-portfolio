@@ -18,5 +18,12 @@ use yii\web\AssetBundle;
  */
 class CropperAssetBundle extends AssetBundle
 {
+    public $sourcePath = '@bower/cropper/dist';
+    public $css = [
+        'cropper.css',
+    ];
 
+    public $js = [
+        'cropper.js'
+    ];
 }

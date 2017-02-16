@@ -11,7 +11,6 @@ use yii\bootstrap\ActiveForm;
 /* @var $locales array */
 /* @var $translationModel \omcrn\portfolio\models\PortfolioItem */
 
-$this->registerJs('$(\'.om-file-crop-input\').omFileInput()');
 ?>
 
 <div class="portfolio-item-form">
@@ -71,8 +70,12 @@ $this->registerJs('$(\'.om-file-crop-input\').omFileInput()');
     ?>
     <hr>
 
-    <input type="file" class="om-file-crop-input" multiple>
 
+    <?php echo $form->field($model, 'thumbnail')->widget(
+        \omcrn\portfolio\widgets\CropperInputWidget::className(), [
+
+        ]
+    ) ?>
 
     <div id="om-file-input-cropper-modal" class="modal fade" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-lg">
@@ -93,19 +96,24 @@ $this->registerJs('$(\'.om-file-crop-input\').omFileInput()');
         </div>
     </div>
 
-    <?php echo $form->field($model, 'start_date')->widget(
-        'trntv\yii\datetime\DateTimeWidget',
-        [
-            'phpDatetimeFormat' => 'yyyy-MM-dd\'T\'HH:mm:ssZZZZZ'
-        ]
-    ) ?>
-
-    <?php echo $form->field($model, 'end_date')->widget(
-        'trntv\yii\datetime\DateTimeWidget',
-        [
-            'phpDatetimeFormat' => 'yyyy-MM-dd\'T\'HH:mm:ssZZZZZ'
-        ]
-    ) ?>
+    <div class="row">
+        <div class="col-xs-6">
+            <?php echo $form->field($model, 'start_date')->widget(
+                trntv\yii\datetime\DateTimeWidget::className(),
+                [
+                    'momentDatetimeFormat' => Yii::$app->formatter->getMomentDatetimeFormat() ?: 'yyyy-MM-dd\'T\'HH:mm:ssZZZZZ',
+                ]
+            ) ?>
+        </div>
+        <div class="col-xs-6">
+            <?php echo $form->field($model, 'end_date')->widget(
+                trntv\yii\datetime\DateTimeWidget::className(),
+                [
+                    'momentDatetimeFormat' => Yii::$app->formatter->getMomentDatetimeFormat() ?: 'yyyy-MM-dd\'T\'HH:mm:ssZZZZZ',
+                ]
+            ) ?>
+        </div>
+    </div>
 
     <?php // echo $form->field($model, 'sort_order')->textInput() ?>
 

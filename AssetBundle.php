@@ -11,23 +11,23 @@ namespace omcrn\portfolio;
 
 class AssetBundle extends \yii\web\AssetBundle
 {
-    public $baseUrl = '@web';
+//    public $sourcePath = '@vendor/omcrn/yii2-portfolio/assets';
 
     public $css = [
-        'css/cropper.css',
+//        'css/cropper.css',
         'css/portfolio.css'
     ];
 
     public $js = [
-        'js/cropper.js',
+//        'js/cropper.js',
         'js/portfolio.js'
     ];
 
     public $depends = [
         'yii\bootstrap\BootstrapAsset',
-        'yii\bootstrap\BootstrapPluginAsset'
+        'omcrn\portfolio\CropperAssetBundle'
     ];
-
+//
     public function init()
     {
         $this->sourcePath = __DIR__ . '/assets';

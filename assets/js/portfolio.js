@@ -30,6 +30,7 @@ $(function () {
     aspectRatio: 1,
     files: [],
     fileSources: [],
+    _cropper: null,
 
     init: function init() {
 
@@ -75,10 +76,7 @@ $(function () {
       console.log(this.files);
       this.$imageListWrapper.find('[data-func="remove"]').on('click', function () {
         var $this = $(this);
-        var index = $this.index();
-        me.files.splice(index, 1);
-        me.fileSources.splice(index, 1);
-        $this.closest('.om-file-preview-wrapper').remove();
+        me.removeFile($this.closest('.om-file-preview-wrapper'));
       });
     },
 
@@ -104,54 +102,44 @@ $(function () {
         $img.addClass('img-responsive');
         $img[0].onload = function () {
 
-          var cropper = void 0;
-          setTimeout(function () {
-            cropper = new Cropper($img[0], {
-              aspectRatio: 1,
-              guides: false,
-              autoCropArea: 1
-            });
-          }, 100);
-
+          me.initCropper($img);
           me.$modalSaveButton.onclick = function () {
-            var imgSrc = cropper.getCroppedCanvas().toDataURL();
+            var imgSrc = $img.cropper('getCroppedCanvas').toDataURL();
             // let $img = me._compileTemplate(me._fileTemplate, {'imgSource': imgSrc});
             me.$container.addClass('om-has-file');
 
             me.appendFile(file, imgSrc);
-
-            // return;
-            //
-            // me.$input.hide();
-            //
-            // me.$addNewButton.attr('style', 'max-width: 192px; padding: 2px;');
-            // $imagePreview.attr('src', imageFile);
-            // me.$addNewButton.append($imagePreview);
-            //
-            // cropper.destroy();
-            //
-            // var removeBtn = $('<span class="glyphicon glyphicon-remove attachment-item-remove"></span>');
-            // me.$addNewButton.append(removeBtn);
-            //
-            // me.$addNewButton.on('mouseover', function () {
-            //   removeBtn.show();
-            // });
-            // me.$addNewButton.mouseleave(function () {
-            //   removeBtn.hide();
-            // });
-            //
-            // removeBtn.on('click', function () {
-            //   me.clearSelected();
-            //   me.init();
-            // });
           };
 
           cropperModal.on('hidden.bs.modal', function () {
-            cropper.destroy();
+            $img.cropper('destroy');
           });
         };
       };
       reader.readAsDataURL(file);
+    },
+
+    initCropper: function initCropper($img) {
+      var me = this;
+      setTimeout(function () {
+        me._cropper = $img.cropper({
+          aspectRatio: 1,
+          guides: false,
+          autoCropArea: 1
+        });
+      }, 100);
+    },
+
+    removeFile: function removeFile($wrapper) {
+      var me = this;
+      var index = $wrapper.index();
+      console.log(index);
+      me.files.splice(index, 1);
+      me.fileSources.splice(index, 1);
+      $wrapper.remove();
+      if (!me.files.length) {
+        me.$container.removeClass('om-has-file');
+      }
     },
 
     appendFile: function appendFile(blobFile, src) {
@@ -160,17 +148,11 @@ $(function () {
       this.renderFiles();
     },
 
-    createPreview: function createPreview() {},
-
     _compileTemplate: function _compileTemplate(tpl, data) {
       for (var key in data) {
         tpl = tpl.replace(new RegExp('{' + key + '}', 'g'), data[key]);
       }
       return tpl;
-    },
-
-    clearSelected: function clearSelected() {
-      this.$addNewButton.remove();
     }
   };
 

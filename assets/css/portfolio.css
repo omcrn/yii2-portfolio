@@ -12,6 +12,7 @@
 .om-input-wrapper {
   float: left;
   position: relative;
+  border: 1px dashed rgba(0, 0, 0, 0.6);
   overflow: hidden;
 }
 .om-input-wrapper .om-plus-button-wrapper {
