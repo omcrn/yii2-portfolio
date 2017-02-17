@@ -2,6 +2,7 @@
 
 namespace omcrn\portfolio\controllers;
 
+use centigen\base\helpers\LocaleHelper;
 use Yii;
 use omcrn\portfolio\models\PortfolioCategory;
 use omcrn\portfolio\models\search\PortfolioCategorySearch;
@@ -61,12 +62,14 @@ class PortfolioCategoryController extends Controller
     public function actionCreate()
     {
         $model = new PortfolioCategory();
+        $locales = LocaleHelper::getAvailableLocales();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['index']);
         } else {
             return $this->render('create', [
                 'model' => $model,
+                'locales' => $locales
             ]);
         }
     }
@@ -82,7 +85,7 @@ class PortfolioCategoryController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['index']);
         } else {
             return $this->render('update', [
                 'model' => $model,

@@ -1,5 +1,6 @@
 <?php
 
+use yii\bootstrap\Tabs;
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
@@ -7,7 +8,7 @@ use yii\bootstrap\ActiveForm;
 /* @var $model omcrn\portfolio\models\PortfolioCategory */
 /* @var $form yii\bootstrap\ActiveForm */
 
-\centigen\base\helpers\UtilHelper::vardump($model);
+//\centigen\base\helpers\UtilHelper::vardump($model);
 ?>
 
 <div class="portfolio-category-form">
@@ -16,15 +17,49 @@ use yii\bootstrap\ActiveForm;
 
     <?php echo $form->errorSummary($model); ?>
 
-    <?php echo $form->field($model, 'slug')->textInput(['maxlength' => true]) ?>
+    <?php
 
-    <?php echo $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+    if (isset($locales)) {
+        $items = [];
+        $ind = 0;
+        foreach ($locales as $key => $locale) {
+
+//            \centigen\base\helpers\UtilHelper::vardump($model->newTranslations[$ind], $ind);
+            $title = $locale;
+            $translationModel = $model->findTranslationByLocale($key);
+            $content = $this->render('_tab_content', [
+                'form' => $form,
+                'model' => $translationModel,
+                'language' => $key,
+            ]);
+
+            $items[] = [
+                'label' => $title,
+                'content' => $content,
+                'headerOptions' => [
+                    'title' => $translationModel->hasErrors() ? Yii::t('portfolio', 'You have validation errors') : "",
+                    'class' => $translationModel->hasErrors() ? 'has-error' : ''
+                ],
+                'options' => [
+                    'class' => 'fade' . ($ind++ === 0 ? ' in' : '')
+                ]
+            ];
+        }
+        echo '<div class="tab-wrapper">';
+        echo Tabs::widget([
+            'items' => $items
+        ]);
+        echo '</div>';
+    } else {
+        echo $this->render('_tab_content', [
+            'form' => $form,
+            'model' => $model
+        ]);
+    }
+
+    ?>
 
     <?php echo $form->field($model, 'status')->checkbox() ?>
-
-    <?php // echo $form->field($model, 'created_at')->textInput() ?>
-
-    <?php // echo $form->field($model, 'updated_at')->textInput() ?>
 
     <div class="form-group">
         <?php echo Html::submitButton($model->isNewRecord ? Yii::t('portfolio', 'Create') : Yii::t('portfolio', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

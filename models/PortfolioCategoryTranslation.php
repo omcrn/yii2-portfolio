@@ -8,6 +8,7 @@
 namespace omcrn\portfolio\models;
 
 use Yii;
+use yii\behaviors\SluggableBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 
@@ -49,7 +50,10 @@ class PortfolioCategoryTranslation extends ActiveRecord
     public function behaviors()
     {
         return [
-            TimestampBehavior::className(),
+            'slug' => [
+                'class' => SluggableBehavior::className(),
+                'attribute' => 'name'
+            ]
         ];
     }
     public function attributeLabels()

@@ -5,6 +5,7 @@ use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $model omcrn\portfolio\models\PortfolioCategory */
+/* @var $locales array */
 
 $this->title = Yii::t('portfolio', 'Create {modelClass}', [
     'modelClass' => 'Portfolio Category',
@@ -16,6 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php echo $this->render('_form', [
         'model' => $model,
+        'locales' => $locales
     ]) ?>
 
 </div>
