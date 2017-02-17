@@ -83,12 +83,14 @@ class PortfolioCategoryController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $locales = LocaleHelper::getAvailableLocales();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index']);
         } else {
             return $this->render('update', [
                 'model' => $model,
+                'locales' => $locales
             ]);
         }
     }
