@@ -2,6 +2,7 @@
 
 namespace omcrn\portfolio\models\search;
 
+use omcrn\portfolio\models\PortfolioCategoryTranslation;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
@@ -12,6 +13,9 @@ use omcrn\portfolio\models\PortfolioCategory;
  */
 class PortfolioCategorySearch extends PortfolioCategory
 {
+    public $slug;
+    public $name;
+
     /**
      * @inheritdoc
      */
@@ -24,15 +28,6 @@ class PortfolioCategorySearch extends PortfolioCategory
     }
 
     /**
-     * @inheritdoc
-     */
-    public function scenarios()
-    {
-        // bypass scenarios() implementation in the parent class
-        return Model::scenarios();
-    }
-
-    /**
      * Creates data provider instance with search query applied
      *
      * @param array $params
@@ -41,11 +36,21 @@ class PortfolioCategorySearch extends PortfolioCategory
      */
     public function search($params)
     {
-        $query = PortfolioCategory::find();
+        $query = PortfolioCategory::find()
+            ->joinOnActiveTranslation();
+        $att = PortfolioCategoryTranslation::tableName();
 
         $dataProvider = new ActiveDataProvider([
-            'query' => $query,
+            'query' => $query
         ]);
+        $dataProvider->sort->attributes['slug'] = [
+            'asc' => ["$att.slug" => SORT_ASC],
+            'desc' => ["$att.slug" => SORT_DESC]
+        ];
+        $dataProvider->sort->attributes['name'] = [
+            'asc' => ["$att.name" => SORT_ASC],
+            'desc' => ["$att.name" => SORT_DESC]
+        ];
 
         if (!($this->load($params) && $this->validate())) {
             return $dataProvider;
@@ -58,8 +63,9 @@ class PortfolioCategorySearch extends PortfolioCategory
             'updated_at' => $this->updated_at,
         ]);
 
-        $query->andFilterWhere(['like', 'slug', $this->slug])
-            ->andFilterWhere(['like', 'name', $this->name]);
+        $query
+            ->andFilterWhere(['like', $att . '.slug', $this->slug])
+            ->andFilterWhere(['like', $att . '.name', $this->name]);
 
         return $dataProvider;
     }

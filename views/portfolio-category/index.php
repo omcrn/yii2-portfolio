@@ -16,8 +16,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?php echo Html::a(Yii::t('portfolio', 'Create {modelClass}', [
-    'modelClass' => 'Portfolio Category',
-]), ['create'], ['class' => 'btn btn-success']) ?>
+            'modelClass' => 'Portfolio Category',
+        ]), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php echo GridView::widget([
@@ -27,8 +27,20 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'activeTranslation.slug',
-            'activeTranslation.name',
+            [
+                'attribute' => 'slug',
+                'content' => function ($model) {
+                    /** @var \omcrn\portfolio\models\PortfolioCategory */
+                    return $model->activeTranslation->slug;
+                }
+            ],
+            [
+                'attribute' => 'name',
+                'content' => function ($model) {
+                    /** @var \omcrn\portfolio\models\PortfolioCategory */
+                    return $model->activeTranslation->name;
+                }
+            ],
             'status',
             'created_at:datetime',
             // 'updated_at',
