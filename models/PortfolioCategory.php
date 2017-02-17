@@ -10,8 +10,6 @@ use yii\behaviors\TimestampBehavior;
  * This is the model class for table "{{%om_portfolio_category}}".
  *
  * @property integer $id
- * @property string $name
- * @property string $slug
  * @property integer $status
  * @property integer $created_at
  * @property integer $updated_at
@@ -34,28 +32,18 @@ class PortfolioCategory extends \yii\db\ActiveRecord
     {
         return [
             [['status', 'created_at', 'updated_at'], 'integer'],
-            [['name'], 'string', 'max' => 45],
-            [['slug'],'string'],
-            [['slug'],'unique'],
         ];
     }
     public function behaviors()
     {
         return [
             TimestampBehavior::className(),
-            [
-                'class' => SluggableBehavior::className(),
-                'attribute' => 'name',
-                'immutable' => true
-            ]
         ];
     }
     public function attributeLabels()
     {
         return [
             'id' => Yii::t('portfolio', 'ID'),
-            'name' => Yii::t('portfolio', 'Name'),
-            'slug' => Yii::t('portfolio', 'Slug'),
             'status' => Yii::t('portfolio', 'Status'),
             'created_at' => Yii::t('portfolio', 'Created At'),
             'updated_at' => Yii::t('portfolio', 'Updated At'),
@@ -70,15 +58,15 @@ class PortfolioCategory extends \yii\db\ActiveRecord
     }
 
 
-    public static function getCategories()
-    {
-        $return = [];
-        $categories = self::find() ->all();
-        foreach ($categories as $cat){
-            $return[$cat['id']] = $cat['name'];
-        }
-        return $return;
-    }
+//    public static function getCategories()
+//    {
+//        $return = [];
+//        $categories = self::find() ->all();
+//        foreach ($categories as $cat){
+//            $return[$cat['id']] = $cat['name'];
+//        }
+//        return $return;
+//    }
 
     /**
      * @inheritdoc

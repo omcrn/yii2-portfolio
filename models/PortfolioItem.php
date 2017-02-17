@@ -51,7 +51,7 @@ class PortfolioItem extends ActiveRecord
     public function rules()
     {
         return [
-            [['thumbnail', 'slug'], 'required'],
+            [['thumbnail'], 'required'],
             [['slug'], 'string'],
             [['slug'], 'unique'],
             [['start_date', 'end_date'], 'safe'],

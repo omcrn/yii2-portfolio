@@ -6,6 +6,8 @@ use yii\bootstrap\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model omcrn\portfolio\models\PortfolioCategory */
 /* @var $form yii\bootstrap\ActiveForm */
+
+\centigen\base\helpers\UtilHelper::vardump($model);
 ?>
 
 <div class="portfolio-category-form">
